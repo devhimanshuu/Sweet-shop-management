@@ -7,6 +7,10 @@ describe("JWT Utils", () => {
     role: "user",
   };
 
+  beforeEach(() => {
+    jest.clearAllMocks();
+  });
+
   it("should generate a valid JWT token", () => {
     const token = generateToken(mockPayload);
     expect(token).toBeDefined();
