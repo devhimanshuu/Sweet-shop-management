@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { RestockDialog } from './RestockDialog';
 import { DeleteSweetDialog } from './DeleteSweetDialog';
+import { UpdateSweetDialog } from './UpdateSweetDialog';
 import axios from 'axios';
 import type { Sweet } from '../../types/index';
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '../ui/card';
@@ -22,6 +23,7 @@ export const SweetCard: React.FC<SweetCardProps> = ({ sweet, onUpdate }) => {
   const [imageError, setImageError] = useState(false);
   const [isRestockOpen, setIsRestockOpen] = useState(false);
   const [isDeleteOpen, setIsDeleteOpen] = useState(false);
+  const [isUpdateOpen, setIsUpdateOpen] = useState(false);
   const { isAdmin } = useAuth();
 
   const handlePurchase = async () => {
@@ -148,18 +150,28 @@ export const SweetCard: React.FC<SweetCardProps> = ({ sweet, onUpdate }) => {
         )}
         
         {isAdmin && (
-          <div className="w-full flex flex-col sm:flex-row gap-2 pt-2 border-t">
+          <div className="w-full grid grid-cols-1 sm:grid-cols-3 gap-2 pt-2 border-t">
+            <Button 
+              onClick={() => setIsUpdateOpen(true)}
+              variant="outline"
+              size="sm"
+              className="w-full transition-all duration-200 hover:bg-blue-50 hover:border-blue-300 px-2 text-xs"
+            >
+              ✏️ Edit
+            </Button>
             <Button 
               onClick={() => setIsRestockOpen(true)}
               variant="outline"
-              className="flex-1 transition-all duration-200 hover:bg-green-50 hover:border-green-300"
+              size="sm"
+              className="w-full transition-all duration-200 hover:bg-green-50 hover:border-green-300 px-2 text-xs"
             >
               📦 Restock
             </Button>
             <Button 
               onClick={() => setIsDeleteOpen(true)}
               variant="destructive"
-              className="flex-1 transition-all duration-200 hover:bg-red-600"
+              size="sm"
+              className="w-full transition-all duration-200 hover:bg-red-600 px-2 text-xs"
             >
               🗑️ Delete
             </Button>
@@ -180,6 +192,12 @@ export const SweetCard: React.FC<SweetCardProps> = ({ sweet, onUpdate }) => {
         onSuccess={onUpdate}
         sweetName={sweet.name}
         sweetId={sweet.id}
+      />
+      <UpdateSweetDialog
+        open={isUpdateOpen}
+        onClose={() => setIsUpdateOpen(false)}
+        onSuccess={onUpdate}
+        sweet={sweet}
       />
     </Card>
   );
