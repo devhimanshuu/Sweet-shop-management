@@ -165,12 +165,10 @@ Integrating AI into the workflow significantly accelerated the development proce
 
 ## 📸 Screenshots
 
-_(Add your screenshots here)_
-
 - **Login View**
   ![Description](assets/Login_img.png)
 - **Dashboard View**
-  ![Description](assets/Dash_admin_Img.png)
+  ![Description](assets/Dash_admin_img.png)
 - **Restock/Edit Modal**
   ![Description](assets/Restock_admin_Img.png)
   ![Description](assets/Edit_Admin_Img.png)
