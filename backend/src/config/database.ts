@@ -1,6 +1,11 @@
 import { Pool } from "pg";
 import dotenv from "dotenv";
 
+import { types } from "pg";
+
+// Configure pg to parse numeric/decimal columns as floats instead of strings
+types.setTypeParser(1700, (val) => parseFloat(val));
+
 dotenv.config();
 
 const pool = new Pool({

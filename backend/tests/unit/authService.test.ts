@@ -91,7 +91,7 @@ describe("AuthService", () => {
   describe("login", () => {
     beforeAll(async () => {
       await authService.register({
-        email: "login@example.com",
+        email: "test_login@example.com",
         password: "password123",
         name: "Login Test",
       });
@@ -99,13 +99,13 @@ describe("AuthService", () => {
 
     it("should login with valid credentials", async () => {
       const result = await authService.login(
-        "login@example.com",
+        "test_login@example.com",
         "password123"
       );
 
       expect(result).toHaveProperty("user");
       expect(result).toHaveProperty("token");
-      expect(result.user.email).toBe("login@example.com");
+      expect(result.user.email).toBe("test_login@example.com");
     });
 
     it("should throw error for non-existent user", async () => {
@@ -116,7 +116,7 @@ describe("AuthService", () => {
 
     it("should throw error for wrong password", async () => {
       await expect(
-        authService.login("login@example.com", "wrongpassword")
+        authService.login("test_login@example.com", "wrongpassword")
       ).rejects.toThrow("Invalid credentials");
     });
   });
