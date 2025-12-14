@@ -22,16 +22,23 @@ export const createSweet = async (req: AuthRequest, res: Response) => {
       image_url,
     });
 
-    res.status(201).json(sweet);
+    res.status(201).json(transformSweet(sweet));
   } catch (error: any) {
     res.status(400).json({ error: error.message });
   }
 };
 
+// Helper function to transform sweet data (convert price and quantity to numbers)
+const transformSweet = (sweet: any) => ({
+  ...sweet,
+  price: parseFloat(sweet.price),
+  quantity: parseInt(sweet.quantity),
+});
+
 export const getAllSweets = async (req: AuthRequest, res: Response) => {
   try {
     const sweets = await sweetService.getAllSweets();
-    res.json(sweets);
+    res.json(sweets.map(transformSweet));
   } catch (error: any) {
     res.status(500).json({ error: error.message });
   }
@@ -40,7 +47,7 @@ export const getAllSweets = async (req: AuthRequest, res: Response) => {
 export const getSweetById = async (req: AuthRequest, res: Response) => {
   try {
     const sweet = await sweetService.getSweetById(parseInt(req.params.id));
-    res.json(sweet);
+    res.json(transformSweet(sweet));
   } catch (error: any) {
     res.status(404).json({ error: error.message });
   }
@@ -57,7 +64,7 @@ export const searchSweets = async (req: AuthRequest, res: Response) => {
     if (maxPrice) params.maxPrice = parseFloat(maxPrice as string);
 
     const sweets = await sweetService.searchSweets(params);
-    res.json(sweets);
+    res.json(sweets.map(transformSweet));
   } catch (error: any) {
     res.status(500).json({ error: error.message });
   }
@@ -73,7 +80,7 @@ export const updateSweet = async (req: AuthRequest, res: Response) => {
       parseInt(req.params.id),
       updates
     );
-    res.json(sweet);
+    res.json(transformSweet(sweet));
   } catch (error: any) {
     res.status(400).json({ error: error.message });
   }
@@ -92,7 +99,7 @@ export const purchaseSweet = async (req: AuthRequest, res: Response) => {
       parseInt(quantity)
     );
 
-    res.json(sweet);
+    res.json(transformSweet(sweet));
   } catch (error: any) {
     res.status(400).json({ error: error.message });
   }
@@ -111,7 +118,7 @@ export const restockSweet = async (req: AuthRequest, res: Response) => {
       parseInt(quantity)
     );
 
-    res.json(sweet);
+    res.json(transformSweet(sweet));
   } catch (error: any) {
     res.status(400).json({ error: error.message });
   }
